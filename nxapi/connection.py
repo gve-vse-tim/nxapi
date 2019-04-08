@@ -31,12 +31,14 @@ import json
 
 import payloads
 
+
 class nxapiException(Exception):
     pass
 
+
 class nxapi(object):
     def __init__(self, protocol='http',
-                 host='localhost', port='80', 
+                 host='localhost', port='80',
                  user='admin', password='admin',
                  message_format='json-rpc',
                  command_type='cli',
@@ -44,15 +46,15 @@ class nxapi(object):
 
         # Core connection information
         self.__set_protocol(protocol)
-        self.__host     = host
-        self.__port     = port
-        self.__user     = user
+        self.__host = host
+        self.__port = port
+        self.__user = user
         self.__password = password
         self.__set_message(message_format)
         self.__set_command(command_type)
 
     def __set_protocol(self, protocol):
-        if protocol not in [ 'http', 'https' ]:
+        if protocol not in ['http', 'https']:
             raise nxapiException(
                         'Unsupported protocol {0}'.format(protocol)
                         )
@@ -70,7 +72,7 @@ class nxapi(object):
                         'Unsupported message {0}'.format(message_format)
             )
 
-        self.__message  = message_format
+        self.__message = message_format
 
     def __get_message(self):
         return self.__message
@@ -84,7 +86,7 @@ class nxapi(object):
                         'Unsupported command {0}'.format(command_type)
                         )
 
-        self.__command  = command_type
+        self.__command = command_type
 
     def __get_command(self):
         return self.__command
@@ -121,11 +123,10 @@ class nxapi(object):
     def payload(self, payload_commands=None):
         if self.message_format == 'json-rpc':
             return payloads.json_rpc(
-                        method = self.command_type,
+                        method=self.command_type,
                         cmd=payload_commands
                         )
 
         raise nxapiException(
                 'Unsupported message format {0}'.format(self.message_format)
                 )
-
